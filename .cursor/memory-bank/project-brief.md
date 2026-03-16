@@ -19,6 +19,7 @@ Demo SPA for a **racing mini-game leaderboard** ("Гоночки"): one page tha
 - **Infinite scroll:** When the last visible virtual index gets within a threshold of the loaded length, `loadMoreUsers` is called once (in-flight guard prevents duplicate requests).
 - **Avatar column:** CSS variable `--rank-col` on the section is set from `rankDigits` (e.g. `calc(Nch + 0.75rem)`); row grid uses `var(--rank-col) auto minmax(0,1fr)` so avatars stay on one vertical axis; transition on `grid-template-columns` + `motion-reduce:transition-none` in globals for smooth realignment when rank width grows (e.g. 99 → 100).
 - **Helpers:** `lib/leaderboard.ts` — `formatRaceTime`, `formatPenaltyTime`, `getPenaltyTimeForUser`, `getAvatarImageForUser`, `makeUserKey`, `SelectedKey`. `lib/utils.ts` — `createSeededRng`, `sleep`, `randomInt`. `lib/constants.ts` — `PAGE_SIZE`, `MAX_USERS`, delays, row height, overscan.
+- **E2E:** Playwright in `e2e/`; `npm run test:e2e`. Tests: page load + initial rows, row selection (click toggles purple highlight), infinite scroll (scroll to bottom loads more, virtual list height increases). `LeaderboardClient` has `data-testid="leaderboard-scroll"` and `data-testid="leaderboard-virtual-list"` for E2E.
 
 ## README requirements vs implementation
 

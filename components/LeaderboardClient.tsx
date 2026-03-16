@@ -128,9 +128,11 @@ export function LeaderboardClient() {
     >
       <div
         ref={scrollParentRef}
+        data-testid="leaderboard-scroll"
         className="leaderboard-scroll relative mt-2 flex-1 min-h-0 overflow-y-auto rounded-3xl bg-transparent p-0"
       >
         <div
+          data-testid="leaderboard-virtual-list"
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`,
             position: 'relative',
