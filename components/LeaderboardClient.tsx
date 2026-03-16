@@ -3,7 +3,13 @@
 import React from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { LeaderboardRow } from '@/components/LeaderboardRow';
-import { PAGE_SIZE, ROW_HEIGHT_PX, VIRTUAL_OVERSCAN } from '@/lib/constants';
+import { Spinner } from '@/components/Spinner';
+import {
+  INITIAL_SPINNER_MIN_MS,
+  PAGE_SIZE,
+  ROW_HEIGHT_PX,
+  VIRTUAL_OVERSCAN
+} from '@/lib/constants';
 import { loadInitialUsers, loadMoreUsers } from '@/lib/mockUsers';
 import type { User } from '@/lib/types';
 import { makeUserKey, type SelectedKey } from '@/lib/leaderboard';
@@ -27,7 +33,6 @@ export function LeaderboardClient() {
     [rankDigits]
   );
 
-  // Віртуалізуємо список замість 1000+ DOM-рядків
   const rowVirtualizer = useVirtualizer({
     count: users.length,
     getScrollElement: () => scrollParentRef.current,
@@ -39,10 +44,15 @@ export function LeaderboardClient() {
 
   React.useEffect(() => {
     let cancelled = false;
+    const start = Date.now();
 
     async function run() {
       try {
         const { users: initialUsers } = await loadInitialUsers();
+        if (cancelled) return;
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, INITIAL_SPINNER_MIN_MS - elapsed);
+        await new Promise((r) => setTimeout(r, remaining));
         if (cancelled) return;
         setUsers(initialUsers);
         setHasMore(true);
@@ -60,7 +70,6 @@ export function LeaderboardClient() {
     };
   }, []);
 
-  // Захист від дублювання запитів при швидкому скролі
   const triggerLoadMore = React.useCallback(async () => {
     if (isLoadingMore || !hasMore) {
       return;
@@ -119,7 +128,7 @@ export function LeaderboardClient() {
     >
       <div
         ref={scrollParentRef}
-        className="leaderboard-scroll mt-2 h-[520px] overflow-y-auto rounded-3xl bg-transparent p-0"
+        className="leaderboard-scroll relative mt-2 h-[520px] overflow-y-auto rounded-3xl bg-transparent p-0"
       >
         <div
           style={{
@@ -160,11 +169,8 @@ export function LeaderboardClient() {
         </div>
 
         {isInitialLoading && !hasAnyData && (
-          <div className="mt-6 flex justify-center">
-            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-medium text-slate-200">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-              Loading racers...
-            </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner size={120} />
           </div>
         )}
 
@@ -178,10 +184,7 @@ export function LeaderboardClient() {
 
         {isLoadingMore && hasAnyData && (
           <div className="mt-3 flex justify-center pb-2">
-            <div className="flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1.5 text-[11px] font-medium text-slate-200">
-              <span className="h-1.5 w-8 animate-pulse rounded-full bg-emerald-400/80" />
-              Loading more...
-            </div>
+            <Spinner size={40} />
           </div>
         )}
       </div>

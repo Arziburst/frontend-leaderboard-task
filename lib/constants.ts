@@ -7,3 +7,5 @@ export const LOAD_MAX_DELAY_MS = 600;
 export const ROW_HEIGHT_PX = 64;
 export const VIRTUAL_OVERSCAN = 8;
 
+export const INITIAL_SPINNER_MIN_MS = 2000;
+
