@@ -15,24 +15,6 @@ export function formatRaceTime(ms: number): string {
   return `${mm}:${ss}.${mmm}`;
 }
 
-export function formatPenaltyTime(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const millis = ms % 1000;
-
-  const mm = minutes.toString().padStart(2, '0');
-  const ss = seconds.toString().padStart(2, '0');
-  const mmm = millis.toString().padStart(2, '0');
-
-  return `${mm}:${ss}.${mmm}`;
-}
-
-export function getPenaltyTimeForUser(user: User): number {
-  const base = (user.time % 15_000) + user.speed * 7;
-  return base % 30_000;
-}
-
 export function makeUserKey(user: User, index: number): string {
   return `${index}-${user.name}-${user.time}-${user.speed}`;
 }

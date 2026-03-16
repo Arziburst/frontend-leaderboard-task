@@ -1,12 +1,7 @@
 import type { CSSProperties } from "react";
 import { memo } from "react";
 import { Color, type User } from "@/lib/types";
-import {
-  formatPenaltyTime,
-  formatRaceTime,
-  getAvatarImageForUser,
-  getPenaltyTimeForUser,
-} from "@/lib/leaderboard";
+import { formatRaceTime, getAvatarImageForUser } from "@/lib/leaderboard";
 
 type Props = {
   user: User;
@@ -26,7 +21,6 @@ function LeaderboardRowBase(props: Props) {
 
   const avatarColor = colorToClassName[user.color] ?? "bg-slate-500";
   const avatarImage = getAvatarImageForUser(user);
-  const penaltyMs = getPenaltyTimeForUser(user);
 
   const rowStyle: CSSProperties = {
     height: "64px",
@@ -80,9 +74,6 @@ function LeaderboardRowBase(props: Props) {
             {formatRaceTime(user.time)}
           </span>{" "}
           <span className="text-slate-400">| {user.speed} km/h</span>
-        </div>
-        <div className="mt-0.5 text-[11px] text-slate-400">
-          штрафний час {formatPenaltyTime(penaltyMs)}
         </div>
       </div>
     </button>

@@ -123,12 +123,12 @@ export function LeaderboardClient() {
   return (
     <section
       aria-label="Racing leaderboard"
-      className="flex flex-col"
+      className="flex flex-col flex-1 min-h-0"
       style={rankColumnStyle}
     >
       <div
         ref={scrollParentRef}
-        className="leaderboard-scroll relative mt-2 h-[520px] overflow-y-auto rounded-3xl bg-transparent p-0"
+        className="leaderboard-scroll relative mt-2 flex-1 min-h-0 overflow-y-auto rounded-3xl bg-transparent p-0"
       >
         <div
           style={{
