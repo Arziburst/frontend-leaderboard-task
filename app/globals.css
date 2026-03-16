@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+html,
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.leaderboard-scroll {
+  scrollbar-width: thin;
+}
+
+.leaderboard-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaderboard-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.7);
+  border-radius: 9999px;
+}
+
+/* UA: вимкнення анімації колонки рангу при prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .leaderboard-row {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,17 @@
+node_modules
+.next
+.turbo
+.vercel
+dist
+out
+coverage
+*.log
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+.cursor
