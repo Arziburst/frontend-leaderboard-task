@@ -29,13 +29,13 @@ function lerpColor(
   );
 }
 
-function lerpTable(
+function lerpTable<T = number>(
   vIndex: number,
   tValue: number,
   table: number[][],
   canExtrapolate: boolean,
-  lerpFunc: (x: number, x0: number, x1: number, y0: number, y1: number) => number = lerp
-) {
+  lerpFunc: (x: number, x0: number, x1: number, y0: number, y1: number) => T = lerp as (x: number, x0: number, x1: number, y0: number, y1: number) => T
+): T {
   const rowCount = table.length;
   for (let i = 0; i < rowCount; ++i) {
     const a = table[i][0];
@@ -49,7 +49,7 @@ function lerpTable(
           table[i + 1][vIndex]
         );
       }
-      return table[i][vIndex];
+      return lerpFunc(tValue, a, a, table[i][vIndex], table[i][vIndex]);
     }
     if (i === rowCount - 1 && tValue >= a) {
       if (canExtrapolate) {
@@ -61,7 +61,7 @@ function lerpTable(
           table[i][vIndex]
         );
       }
-      return table[i][vIndex];
+      return lerpFunc(tValue, a, a, table[i][vIndex], table[i][vIndex]);
     }
     if (tValue >= a && tValue <= table[i + 1][0]) {
       return lerpFunc(
@@ -73,7 +73,7 @@ function lerpTable(
       );
     }
   }
-  return 0;
+  return lerpFunc(tValue, table[0][0], table[0][0], table[0][vIndex], table[0][vIndex]);
 }
 
 const PATH_WIDTH = 372;
